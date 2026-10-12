@@ -1,0 +1,9 @@
+{
+    "height": 100,
+    "width": 100,
+    "radius_death": 2,
+    "radius_generate": 2,
+    "underpop_tsh": 8,
+    "overpop_tsh": 20,
+    "reproduce_adj": 1
+}

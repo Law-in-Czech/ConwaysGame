@@ -10,11 +10,13 @@ from matplotlib.colors import ListedColormap as colorm
 from matplotlib.widgets import Button
 import matplotlib.font_manager as fm
 
-font_path = "/home/jumeys/Documents/Code/ConwaysGame/Conways_Game/Baskervville/Baskervville-VariableFont_wght.ttf"
-custom_font = fm.FontProperties(fname=font_path)
+
+
 root = tk.Tk()
 root.withdraw()
 target_dir = os.path.dirname(os.path.abspath(__file__))
+font_path = target_dir+"/Baskervville/Baskervville-VariableFont_wght.ttf"
+custom_font = fm.FontProperties(fname=font_path)
 selected_file = filedialog.askopenfilename(initialdir=target_dir, title="Select a file", filetypes=[("Text files", "*.json"), ("All files", "*.*")])
 fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(8, 6))
 ax_button = fig.add_axes([0.45, 0.05, 0.1, 0.05])
@@ -46,33 +48,33 @@ DIFFERENTIAL_MAP = np.zeros((HEIGHT, WIDTH), dtype=bool)
 PAUSED_STATE = True
 
 
-CLK = 1
+CLK = 100
 
 
 
 
-def cell_adjacencies(map, radius, y_coord, x_coord):
+def cell_adjacencies(map, radius, y_coord, x_coord): # Returns number of adjacent live cells
     global SEARCH_CELLS
-    adjacent_cells = 0
-    n_rows, n_cols = map.shape
-    west_bound = max(0, x_coord-radius)
-    east_bound = min(n_cols, x_coord + radius + 1)
+    adjacent_cells = 0 # declaration of variable returned
+    n_rows, n_cols = map.shape #storing the number of rows and columns of the map
+    west_bound = max(0, x_coord-radius) # defines the left end of the rectangular search area
+    east_bound = min(n_cols, x_coord + radius + 1) # defines the right end of the rectangular search area
 
-    north_bound = max(0, y_coord-radius)
-    south_bound = min(n_rows, y_coord + radius + 1)
+    north_bound = max(0, y_coord-radius) # defines the upper end of the rectangular search area
+    south_bound = min(n_rows, y_coord + radius + 1) # defines the lower end of the rectangular search area
 
-    search_matrix = map[north_bound:south_bound, west_bound:east_bound]
+    search_matrix = map[north_bound:south_bound, west_bound:east_bound] # defines the search area itself in new matrix
 
 
-    for row in search_matrix:
+    for row in search_matrix: # iterates through search matrix
         for value in row:
-            if value == True:
+            if value == True: # if cell is alive it adds to function returned value
                 adjacent_cells += 1
 
-    if map[y_coord, x_coord] == True:
+    if map[y_coord, x_coord] == True: # if the cell at the initial coordinates is alive it removes it from the count
         adjacent_cells -= 1
 
-    return adjacent_cells
+    return adjacent_cells # returns number of adjacent live cells
 
 
 
